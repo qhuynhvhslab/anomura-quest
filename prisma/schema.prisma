@@ -117,67 +117,12 @@ model Admin {
   nonce  String?
 }
 
-model Anomuras {
-  id                    Int                   @id @default(autoincrement())
-  owner                 String?             
-  crabId                Int                   @unique
-  name                  String?
-  description           String?
-  background            String              
-  legs                  String              
-  shell                 String              
-  claws                 String              
-  body                  String              
-  image                 String                @default("")
-  headpieces            String?               @default("")
-  anomuraEquipments     EquipmentCollection[]
-  createdAt             DateTime              @default(now())
-  updatedAt             DateTime              @default(now()) @updatedAt
-}
-
-model AnomuraPartImage {
-    id     Int        @id @default(autoincrement())
-    name   String?    @unique
-    url    String?
-}
-
-
-model AnomuraEquipmentContractLog {
-    id                  Int                 @id @default(autoincrement())
-    eventLogId          String
-    address             String
-    eventName           String
-    blockNumber         Int
-    transactionHash     String
-    data                Json?
-    createdAt           DateTime            @default(now())
-    updatedAt           DateTime            @default(now()) @updatedAt
-
-}
-
-model AnomuraContractLog {
-    id                  Int                 @id @default(autoincrement())
-    eventLogId          String
-    address             String
-    eventName           String
-    blockNumber         Int
-    transactionHash     String
-    data                Json?
-    createdAt           DateTime            @default(now())
-    updatedAt           DateTime            @default(now()) @updatedAt
-}
-
 model MoralisNftData {
   id                  Int                 @id @default(autoincrement())
   contractAddress     String              @unique
   contractData        Json?
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @default(now()) @updatedAt
-}
-
-model TeamListAddress {
-    id                Int                 @id @default(autoincrement())
-    wallet            String              @unique
 }
 
 model WhiteListAddress {
@@ -222,46 +167,4 @@ model shellRedeemed {
     createdAt         DateTime            @default(now())
     updatedAt         DateTime            @default(now()) @updatedAt
     userId            String?             @unique
-}
-
-model AnomuraPartSVG {
-    id          Int        @id @default(autoincrement())
-    part        String?    
-    attribute   String?
-    svg         String?
-}
-
-
-enum EquipmentType {
-  BODY
-  CLAWS
-  LEGS
-  SHELL
-  HEADPIECES
-  HABITAT
-}
-
-enum EquipmentRarity {
-  NORMAL
-  MAGIC
-  RARE
-  LEGENDARY 
-}
-
-
-model EquipmentCollection {
-  id                      Int                 @id @default(autoincrement())
-  collectionAddress       String
-  equipmentId             Int   
-  equipmentName           String?
-  equipmentType           EquipmentType?
-  equipmentRarity         EquipmentRarity?  
-  image                   String?    
-  anomura                 Anomuras?           @relation(fields: [equipToAnomura], references: [crabId], onDelete: SetNull, onUpdate: Cascade)     
-  equipToAnomura          Int?                
-  owner                   String?
-
-  createdAt               DateTime            @default(now())
-  updatedAt               DateTime            @default(now()) @updatedAt
-  @@unique([collectionAddress, equipmentId])            
 }
